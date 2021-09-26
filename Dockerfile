@@ -17,4 +17,7 @@ RUN apt-get update && \
 RUN mkdir /var/log/jenkins
 RUN chown -R  jenkins:jenkins /var/log/jenkins
 
+RUN apt-get update && \
+    apt-get install -y docker-ce-cli
+
 USER jenkins
