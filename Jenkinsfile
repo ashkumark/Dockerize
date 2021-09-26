@@ -5,6 +5,7 @@ pipeline {
         stage('Build Jar') {
             agent {
                 docker {
+                	image 'maven:3.8.1-jdk-8-openj9'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
