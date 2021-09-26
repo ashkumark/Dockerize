@@ -63,7 +63,7 @@ public class ApiDemoFeatureGlue {
 		setResponseSpecification(responseSpec);
 	}
 
-	@Before
+	@Before("@API")
 	public void beforeScenario() {
 		setRequestSpecBuilder();
 		setResponseSpecBuilder();

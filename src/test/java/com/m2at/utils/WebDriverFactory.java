@@ -14,16 +14,21 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class WebDriverFactory {
 
 	WebDriver driver;
+	WebDriverManager wdm;
 
-	public void setWebDriverManager() {
+	public void setWebDriverManagerLocal() {
 		WebDriverManager.chromedriver().setup();
 		WebDriverManager.firefoxdriver().setup();
 	}
-
-	public WebDriver initialiseWebDriver(String browserType) {
-
-		setWebDriverManager();
-		
+	
+	public void setWebDriverManagerInDocker() {
+		wdm = WebDriverManager.chromedriver()
+							   .browserInDocker()
+							   .enableVnc()
+							   .enableRecording();
+	}
+	
+	public void setDriver(String browserType) {
 		if (driver == null) {
 			switch (browserType) {
 			case "chrome":
@@ -57,6 +62,30 @@ public class WebDriverFactory {
 				throw new RuntimeException("Unsupported browser");
 			}
 		}
+	}
+
+	public WebDriver initialiseWebDriver(String browserType) {
+
+		String env = System.getProperty("env");
+		
+		if (env == null) {
+			setWebDriverManagerLocal();
+			setDriver(browserType);
+		} else {		
+			switch (env.toLowerCase()) {
+			case "local":
+				setWebDriverManagerLocal();
+				setDriver(browserType);
+				break;
+			case "docker":
+				setWebDriverManagerInDocker();
+				 driver = wdm.create();
+				break;
+			default:
+				throw new RuntimeException("Invalid env..");
+			}		
+		}
+		
 		return driver;
 	}
 }

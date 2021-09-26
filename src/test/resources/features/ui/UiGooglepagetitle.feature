@@ -1,5 +1,6 @@
 #Author: Ash, Manual 2 Automation Testing
-@Search @UI
+
+@UI
 Feature: PageTitle
 
   @Regression

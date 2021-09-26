@@ -1,9 +1,9 @@
 #Author: Ash
 
-@API @Regression
+@API
 Feature: jsonplaceholder demo
 
-  @DemoScenario
+  @Regression
   Scenario: json placeholder scenario
     Given the API for jsonplaceholder
     When I make a request to API

@@ -23,10 +23,12 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class GooglePagetitleSteps {
 
 	WebDriver driver;
+	//WebDriverManager wdm;
 	WebElement element;
 	WebDriverWait wait;
 
@@ -94,7 +96,7 @@ public class GooglePagetitleSteps {
 		return element;
 	}
 
-	@Before
+	@Before("@UI")
 	public void beforeScenario() throws InterruptedException, IOException {
 		// Setup properties
 		filePath = "./src/test/resources/config/google.properties";
@@ -113,16 +115,31 @@ public class GooglePagetitleSteps {
 		driver.navigate().to(property.getProperty("testUrl"));
 	}
 
-	@After
+	@After("@UI")
 	public void afterScenario() {
 		if (driver != null) {
 			driver.quit();
+		}
+		
+		/*		if (wdm != null) {
+					wdm.quit();
+				}*/
+	}
+	
+	public void cookies() {
+		
+		int size = driver.findElements(By.xpath(property.getProperty("iAgreeButton"))).size();
+		if(size != 0) {
+			getWebElement(property.getProperty("iAgreeButton")).click();
 		}
 	}
 
 	@Given("I am on the homepage")
 	public void i_am_on_the_homepage() {
 		try {
+			
+			cookies();
+			
 			boolean searchTextBoxPresent = getWebElement(property.getProperty("searchBox")).isDisplayed();
 			assertThat(searchTextBoxPresent, is(true));
 			System.out.println("User is on the home Page");
