@@ -28,7 +28,7 @@ pipeline {
                 }
             }
             steps {
-            	sh 'mvn clean verify -DCucumber.filter.tags="@API"'
+            	sh 'mvn test -Dcucumber.filter.tags="@API"'
             }
         }
         stage('UI Automation') {
@@ -39,7 +39,7 @@ pipeline {
                 }
             }
             steps {
-            	sh 'mvn clean verify -Denv=docker -DCucumber.filter.tags="@UI"'
+            	sh 'mvn test -Denv=docker -Dcucumber.filter.tags="@UI"'
             }       
         }
         stage('Push Image') {
