@@ -3,6 +3,7 @@ package com.m2at.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class LoadProperties {
@@ -12,12 +13,12 @@ public class LoadProperties {
 	FileInputStream fis;
 	Properties properties;
 
-	public LoadProperties(String filePath) {
+	/*public LoadProperties(String filePath) {
 		this.filePath = filePath;
-	}
+	}*/
 	
-	public Properties loadProperty() throws IOException {
-		try {
+	public Properties loadProperty(InputStream inputStream) throws IOException {
+		/*try {
 			// File object specifies the path
 			file = new File(filePath);
 			
@@ -25,12 +26,12 @@ public class LoadProperties {
 			fis = new FileInputStream(file);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		try {
 			// Load properties
 			properties = new Properties();
-			properties.load(fis);
+			properties.load(inputStream);
 		} catch (IOException e) {
 			throw new IOException();
 		}

@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import org.junit.Assert;
@@ -15,6 +16,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.m2at.constants.ConfigPath;
 import com.m2at.utils.LoadProperties;
 import com.m2at.utils.WebDriverFactory;
 
@@ -36,7 +38,7 @@ public class GooglePagetitleSteps {
 
 	private String testUrl;
 	private String browserType;
-	private String filePath;
+	private String file;
 
 	LoadProperties loadProperties;
 	WebDriverFactory webDriverFactory;
@@ -98,10 +100,17 @@ public class GooglePagetitleSteps {
 
 	@Before("@UI")
 	public void beforeScenario() throws InterruptedException, IOException {
-		// Setup properties
-		filePath = "src/test/resources/config/google.properties";
-		loadProperties = new LoadProperties(filePath);
-		property = loadProperties.loadProperty();
+		file = "google.properties";
+		
+		String filePath = ConfigPath.CONFIG_FILE_PATH.getValue() + file;
+		
+		// Get Resource As Stream for the file passed on
+		ClassLoader classLoader = getClass().getClassLoader();
+		InputStream inputStream = classLoader.getResourceAsStream(filePath);
+				
+		// Setup properties		
+		loadProperties = new LoadProperties();
+		property = loadProperties.loadProperty(inputStream);
 
 		// Instantiate browser driver based on browserType		
 		webDriverFactory = new WebDriverFactory();
