@@ -99,7 +99,7 @@ public class GooglePagetitleSteps {
 	@Before("@UI")
 	public void beforeScenario() throws InterruptedException, IOException {
 		// Setup properties
-		filePath = "./src/test/resources/config/google.properties";
+		filePath = "config/google.properties";
 		loadProperties = new LoadProperties(filePath);
 		property = loadProperties.loadProperty();
 
