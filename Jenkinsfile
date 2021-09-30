@@ -18,7 +18,7 @@ pipeline {
         stage('API Automation') {
         	agent {
                 docker {
-                    dockerImage.pull()
+                    image '${dockerImage}'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
@@ -29,7 +29,7 @@ pipeline {
         stage('UI Automation') {
         	agent {
                 docker {
-                    dockerImage.pull()
+                    image '${dockerImage}'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
