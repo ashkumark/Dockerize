@@ -18,7 +18,7 @@ pipeline {
         stage('API Automation') {
         	agent {
                 docker {
-                    image '${dockerImage}'
+                    image env.dockerImage
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
