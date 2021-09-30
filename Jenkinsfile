@@ -23,7 +23,7 @@ pipeline {
         stage('API Automation') {
         	agent {
                 docker {
-                    image 'maven:3.8.2-openjdk-8'
+                    image 'ashkumarkdocker/docker-e2e-automation'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
@@ -34,7 +34,7 @@ pipeline {
         stage('UI Automation') {
         	agent {
                 docker {
-                    image 'maven:3.8.2-openjdk-8'
+                    image 'ashkumarkdocker/docker-e2e-automation'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
