@@ -18,7 +18,7 @@ pipeline {
         stage('API Automation') {
         	agent {
                 docker {
-                    image env["$dockerImage"]
+                    image 'ashkumarkdocker/docker-e2e-automation'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
@@ -39,12 +39,12 @@ pipeline {
         }
         stage('Push Image') {
             steps {
-                script {     
-                   docker.withRegistry("https://" + uri, "ecr:eu-west-2:" + registryCredential) {
-                         dockerImage.push()
-				   }				       
-				}
-             }
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                        dockerImage.push("latest")
+                    }
+                }
+            }
         }
     }
     
