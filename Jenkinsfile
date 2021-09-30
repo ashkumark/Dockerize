@@ -5,7 +5,7 @@ pipeline {
         stage('Build Jar') {
             agent {
                 docker {
-                	image 'maven:3.8.1-jdk-8-openj9'
+                	image 'maven:3.8.2-openjdk-8'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
@@ -23,7 +23,7 @@ pipeline {
         stage('API Automation') {
         	agent {
                 docker {
-                    image 'maven:3.8.1-jdk-8-openj9'
+                    image 'maven:3.8.2-openjdk-8'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
@@ -34,7 +34,7 @@ pipeline {
         stage('UI Automation') {
         	agent {
                 docker {
-                    image 'maven:3.8.1-jdk-8-openj9'
+                    image 'maven:3.8.2-openjdk-8'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
