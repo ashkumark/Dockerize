@@ -18,7 +18,7 @@ pipeline {
         stage('API Automation') {
         	agent {
                 docker {
-                    image env.dockerImage
+                    image env["$dockerImage"]
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
@@ -29,7 +29,7 @@ pipeline {
         stage('UI Automation') {
         	agent {
                 docker {
-                    image '${dockerImage}'
+                    image 'ashkumarkdocker/docker-e2e-automation'
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
