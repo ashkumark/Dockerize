@@ -1,18 +1,13 @@
 pipeline {
     agent any
     
+    environment {
+    	uri = '518637836680.dkr.ecr.eu-west-2.amazonaws.com/restdocker'
+    	registryCredential = '518637836680'
+    	dockerImage = ''
+    }
+    
     stages {
-        stage('Build Jar') {
-            agent {
-                docker {
-                	image 'maven:3.8.2-openjdk-8'
-                    args '-v $HOME/.m2:/root/.m2'
-                }
-            }
-            steps {
-                sh 'mvn clean package -DskipTests'
-            }
-        }
         stage('Build Image') {
             steps {
                 script {
@@ -23,7 +18,7 @@ pipeline {
         stage('API Automation') {
         	agent {
                 docker {
-                    image 'ashkumarkdocker/docker-e2e-automation'
+                    image dockerImage
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
@@ -34,7 +29,7 @@ pipeline {
         stage('UI Automation') {
         	agent {
                 docker {
-                    image 'ashkumarkdocker/docker-e2e-automation'
+                    image dockerImage
                     args '-v $HOME/.m2:/root/.m2'
                 }
             }
@@ -44,13 +39,12 @@ pipeline {
         }
         stage('Push Image') {
             steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                           // app.push("${BUILD_NUMBER}")
-                        dockerImage.push("latest")
-                    }
-                }
-            }
+                script {     
+                   docker.withRegistry("https://" + uri, "ecr:eu-west-2:" + registryCredential) {
+                         dockerImage.push()
+				   }				       
+				}
+             }
         }
     }
     
