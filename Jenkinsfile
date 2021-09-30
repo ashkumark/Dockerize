@@ -1,8 +1,12 @@
 pipeline {
-    agent any
+   //agent any
+   
+   agent {
+  	label 'jenkins-slave-1'
+   }
     
     environment {
-    	uri = '518637836680.dkr.ecr.eu-west-2.amazonaws.com/restdocker'
+    	uri = '518637836680.dkr.ecr.eu-west-2.amazonaws.com/ashkumarkdocker/docker-e2e-automation'
     	registryCredential = '518637836680'
     	dockerImage = ''
     }
