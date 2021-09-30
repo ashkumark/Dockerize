@@ -19,7 +19,11 @@ RUN apt-get update && \
     CHROMEVER=$(google-chrome --product-version | grep -o "[^\.]*\.[^\.]*\.[^\.]*") && \
     DRIVERVER=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROMEVER") && \
     wget -q --continue -P /chromedriver "http://chromedriver.storage.googleapis.com/$DRIVERVER/chromedriver_linux64.zip" && \
-    unzip /chromedriver/chromedriver* -d /chromedriver	
+    unzip /chromedriver/chromedriver* -d /chromedriver	&& \
+
+RUN chown -R jenkins:jenkins /chromedriver
+
+USER jenkins
   
 # Expose ports
 EXPOSE 5901
