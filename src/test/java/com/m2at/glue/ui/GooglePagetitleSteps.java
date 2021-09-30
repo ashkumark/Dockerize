@@ -30,7 +30,6 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class GooglePagetitleSteps {
 
 	WebDriver driver;
-	//WebDriverManager wdm;
 	WebElement element;
 	WebDriverWait wait;
 

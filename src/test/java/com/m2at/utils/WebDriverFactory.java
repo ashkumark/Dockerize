@@ -1,5 +1,6 @@
 package com.m2at.utils;
 
+import java.util.Collections;
 import java.util.logging.Level;
 
 import org.openqa.selenium.WebDriver;
@@ -14,28 +15,43 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class WebDriverFactory {
 
 	WebDriver driver;
-	WebDriverManager wdm;
+	ChromeOptions options;
 
-	public void setWebDriverManagerLocal() {
-		WebDriverManager.chromedriver().setup();
-		WebDriverManager.firefoxdriver().setup();
-	}
-	
-	public void setWebDriverManagerInDocker() {
-		wdm = WebDriverManager.chromedriver()
-							   .browserInDocker()
-							   .enableVnc()
-							   .enableRecording();
-	}
-	
 	public void setDriver(String browserType) {
 		if (driver == null) {
 			switch (browserType) {
 			case "chrome":
+				options = new ChromeOptions();
+
+				options.setBinary("/opt/google/chrome/google-chrome");
+
+				options.addArguments("--no-sandbox"); // Bypass OS security model
+				options.addArguments("--remote-debugging-port=9222");
+				options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+				options.addArguments("start-maximized"); // open Browser in maximized mode
+				options.addArguments("disable-infobars"); // disabling infobars
+				options.addArguments("--disable-extensions"); // disabling extensions
+				options.addArguments("--disable-gpu"); // applicable to windows os only
+
+				options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+				options.setExperimentalOption("useAutomationExtension", false);
+
 				driver = new ChromeDriver();
 				break;
 			case "chromeheadless":
-				ChromeOptions options = new ChromeOptions();
+				options = new ChromeOptions();
+				options.setBinary("/opt/google/chrome/google-chrome");
+
+				options.addArguments("--no-sandbox"); // Bypass OS security model
+				options.addArguments("--remote-debugging-port=9222");
+				options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+				options.addArguments("start-maximized"); // open Browser in maximized mode
+				options.addArguments("disable-infobars"); // disabling infobars
+				options.addArguments("--disable-extensions"); // disabling extensions
+				options.addArguments("--disable-gpu"); // applicable to windows os only
+
+				options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+				options.setExperimentalOption("useAutomationExtension", false);
 				options.addArguments("--headless");
 
 				driver = new ChromeDriver(options);
@@ -53,7 +69,7 @@ public class WebDriverFactory {
 
 				FirefoxOptions foptions = new FirefoxOptions();
 				foptions.setHeadless(true);
-				
+
 				driver = new FirefoxDriver(foptions);
 
 				break;
@@ -66,26 +82,10 @@ public class WebDriverFactory {
 
 	public WebDriver initialiseWebDriver(String browserType) {
 
-		String env = System.getProperty("env");
-		
-		if (env == null) {
-			setWebDriverManagerLocal();
-			setDriver(browserType);
-		} else {		
-			switch (env.toLowerCase()) {
-			case "local":
-				setWebDriverManagerLocal();
-				setDriver(browserType);
-				break;
-			case "docker":
-				setWebDriverManagerInDocker();
-				 driver = wdm.create();
-				break;
-			default:
-				throw new RuntimeException("Invalid env..");
-			}		
-		}
-		
+		System.setProperty("webdriver.chrome.driver", "/chromedriver/chromedriver");
+
+		setDriver(browserType);
+
 		return driver;
 	}
 }

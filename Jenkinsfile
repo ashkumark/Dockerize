@@ -39,7 +39,7 @@ pipeline {
                 }
             }
             steps {
-            	sh 'mvn test -Denv=docker -Dcucumber.filter.tags="@UI"'
+            	sh 'mvn test -Dcucumber.filter.tags="@UI"'
             }       
         }
         stage('Push Image') {
