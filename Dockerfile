@@ -40,7 +40,7 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
-#USER jenkins
+USER jenkins
   
 # Expose ports
 EXPOSE 5901
