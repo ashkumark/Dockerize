@@ -36,9 +36,9 @@ RUN mkdir /var/log/jenkins
 RUN chown -R  jenkins:jenkins /var/log/jenkins
 
 # entrypoint is used to update docker gid and revert back to jenkins user
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY entrypoint.sh /home/docker-jenkins-test/entrypoint.sh
+RUN chmod +x /home/docker-jenkins-test/entrypoint.sh
+ENTRYPOINT ["/home/docker-jenkins-test/entrypoint.sh"]
 
 USER jenkins
   
