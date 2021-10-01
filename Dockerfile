@@ -35,7 +35,12 @@ RUN chown -R jenkins:jenkins /chromedriver
 RUN mkdir /var/log/jenkins
 RUN chown -R  jenkins:jenkins /var/log/jenkins
 
-USER jenkins
+# entrypoint is used to update docker gid and revert back to jenkins user
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+#USER jenkins
   
 # Expose ports
 EXPOSE 5901
